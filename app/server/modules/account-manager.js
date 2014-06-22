@@ -64,6 +64,7 @@ exports.addNewAccount = function(newData, callback)
 				}	else{
 					saltAndHash(newData.pass, function(hash){
 						newData.pass = hash;
+						
 					// append date stamp when record was created //
 						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
 						accounts.insert(newData, {safe: true}, callback);
@@ -147,8 +148,8 @@ exports.getAllRecords = function(callback)
 
 exports.getSearchResult= function(query,callback)
 {
-	console.log(".*"+query+".*");
-accounts.findOne({user:query}, function(e,o){callback(o)});
+	console.log(new RegExp(query));
+accounts.find({user:new RegExp(query)}).toArray( function(e,o){callback(o)});
 }
 
 exports.delAllRecords = function(callback)

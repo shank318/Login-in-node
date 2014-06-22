@@ -61,7 +61,8 @@ module.exports = function(app) {
 				name 		: req.param('name'),
 				email 		: req.param('email'),
 				country 	: req.param('country'),
-				pass		: req.param('pass')
+				pass		: req.param('pass'),
+				title :   req.param('country')
 			}, function(e, o){
 				if (e){
 					res.send('error-updating-account', 400);
@@ -94,7 +95,11 @@ module.exports = function(app) {
 			email 	: req.param('email'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
-			country : req.param('country')
+			country : req.param('country'),
+			title :   req.param('country'),
+
+
+
 		}, function(e){
 			if (e){
 				res.send(e, 400);
@@ -176,7 +181,7 @@ module.exports = function(app) {
 	
 	app.get('/print', function(req, res) {
 		AM.getAllRecords( function(e, accounts){
-			res.render('print', { title : 'Account List', accts : accounts });
+			res.send(accounts);
 		})
 	});
 
