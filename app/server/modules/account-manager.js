@@ -3,7 +3,7 @@ var crypto 		= require('crypto');
 var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
-
+var mongoose    = require('mongoose')
 var dbPort 		= 27017;
 var dbHost 		= 'localhost';
 var dbName 		= 'node-login';
@@ -19,6 +19,22 @@ var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}),
 	}
 });
 var accounts = db.collection('accounts');
+
+
+// var Document = mongoose.Schema({
+//   _userId: { type: Number, default: 1 },
+  
+// });
+
+// Document.index({ "_userId": 1 }, { unique: true });
+
+
+// accounts.insert({_userId:2}, {safe:true}, function(docs) {
+//         // Count the number of records
+//         accounts.count(function(err, count) {
+//           console.log("There are " + count + " records.");
+//         });
+  //  });
 
 /* login validation methods */
 
@@ -64,6 +80,14 @@ exports.addNewAccount = function(newData, callback)
 				}	else{
 					saltAndHash(newData.pass, function(hash){
 						newData.pass = hash;
+
+						// var Document = mongoose.Schema({
+      //                      _userId: { type: Number, default: 1 },
+  
+      //                      });
+
+      //                     Document.index({ "_userId": 1 }, { unique: true });
+      //                     newData._userId=_userId;
 						
 					// append date stamp when record was created //
 						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
@@ -149,7 +173,7 @@ exports.getAllRecords = function(callback)
 exports.getSearchResult= function(query,callback)
 {
 	console.log(new RegExp(query));
-accounts.find({user:new RegExp(query)}).toArray( function(e,o){callback(o)});
+accounts.find({user:new RegExp(query)} ).toArray( function(e,o){callback(o)});
 }
 
 exports.delAllRecords = function(callback)
